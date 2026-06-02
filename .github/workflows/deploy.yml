@@ -111,13 +111,15 @@ jobs:
 
       - name: Copy static assets
         run: |
-          cp -r assets/logo  _site/assets/logo  2>/dev/null || mkdir -p _site/assets/logo
-          cp -r assets/images _site/assets/images 2>/dev/null || mkdir -p _site/assets/images
-          [ -f robots.txt ]   && cp robots.txt   _site/
-          [ -f sitemap.xml ]  && cp sitemap.xml  _site/
-          [ -f 404.html ]     && cp 404.html     _site/
-          [ -f CNAME ]        && cp CNAME        _site/
+          cp -r assets/logo    _site/assets/logo   2>/dev/null || mkdir -p _site/assets/logo
+          cp -r assets/images  _site/assets/images 2>/dev/null || mkdir -p _site/assets/images
+          [ -d images ]       && cp -r images       _site/images
+          [ -f robots.txt ]   && cp robots.txt      _site/
+          [ -f sitemap.xml ]  && cp sitemap.xml     _site/
+          [ -f 404.html ]     && cp 404.html        _site/
+          [ -f CNAME ]        && cp CNAME           _site/
           echo "Assets copied."
+          echo "Gallery images: $(ls _site/images/gallery/ 2>/dev/null | wc -l) files"
 
       - name: Upload build artifact
         uses: actions/upload-pages-artifact@v3
