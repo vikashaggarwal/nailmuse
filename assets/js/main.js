@@ -213,7 +213,7 @@ if (fadeEls.length) {
   const form = document.getElementById('booking-form');
   if (!form) return;
 
-  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8c514qTYcsGTuVuKLyrDLi695WDMABZhbELlHzGFhk9K4NZAmS_4QRhXQSTOFtzh5/exec';
 
   // Disable past dates & Sundays
   const dateInput = document.getElementById('booking-date');
@@ -351,7 +351,7 @@ if (fadeEls.length) {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8c514qTYcsGTuVuKLyrDLi695WDMABZhbELlHzGFhk9K4NZAmS_4QRhXQSTOFtzh5/exec';
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
