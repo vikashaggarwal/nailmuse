@@ -141,34 +141,6 @@ p  { font-size: .975rem; color: var(--gray); line-height: 1.75; }
 }
 .gold-divider.left { margin-left: 0; }
 
-/* ── Announcement Bar ─────────────────────────── */
-#announcement-bar {
-  background: linear-gradient(90deg, var(--rose), #a5154e, var(--rose));
-  background-size: 200% 100%;
-  animation: shimmer 4s ease infinite;
-  color: var(--white);
-  text-align: center;
-  padding: .65rem 1rem;
-  font-size: .82rem;
-  font-weight: 500;
-  letter-spacing: .04em;
-  position: relative;
-  z-index: 200;
-}
-.ann-close {
-  position: absolute;
-  right: 1rem; top: 50%;
-  transform: translateY(-50%);
-  background: none; border: none;
-  color: rgba(255,255,255,.8);
-  font-size: 1.1rem;
-  cursor: pointer;
-  line-height: 1;
-}
-@keyframes shimmer {
-  0%,100% { background-position: 0 0; }
-  50%      { background-position: 100% 0; }
-}
 
 /* ── Navigation ───────────────────────────────── */
 #navbar {
