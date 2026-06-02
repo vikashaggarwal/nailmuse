@@ -1,103 +1,110 @@
 // ============================================================
 // NAIL MUSE — Google Apps Script
-// Paste this at script.google.com (or via Extensions > Apps Script)
-// Deploy as Web App: Execute as Me | Access: Anyone
+// SETUP:
+//   1. Go to script.google.com → open your Nail Muse project
+//   2. Select All (Cmd+A) → Delete → Paste this entire file
+//   3. Replace PASTE_YOUR_SHEET_ID_HERE with your Google Sheet ID
+//      (the long ID from the sheet URL between /d/ and /edit)
+//   4. Deploy → New Deployment → Web App
+//      Execute as: Me  |  Access: Anyone
+//   5. Authorise all permissions when prompted
 // ============================================================
 
-const SPREADSHEET_ID  = 'YOUR_GOOGLE_SHEET_ID_HERE';   // ← paste your Sheet ID
-const OWNER_EMAIL     = 'nailmuse2016@gmail.com';    // ← your email
-const STUDIO_WHATSAPP = '918879336671';                 // already set
+const SPREADSHEET_ID = '1Xp4ohREcL3JVbL3iUdAXnY7he5tpKkFTPPHthcIsuO8';
+const OWNER_EMAIL    = 'nailmuse2016@gmail.com';
+const WHATSAPP_NUM   = '918879336671';
 
+// ── Entry point: receives form submissions ────────────────────
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
-
+    var data = JSON.parse(e.postData.contents);
     saveToSheet(data);
-    sendConfirmationToClient(data);
-    notifyOwner(data);
-
+    emailClient(data);
+    emailOwner(data);
     return ContentService
       .createTextOutput(JSON.stringify({ success: true, ref: data.bookingRef }))
       .setMimeType(ContentService.MimeType.JSON);
-
   } catch (err) {
+    Logger.log('doPost error: ' + err.message);
     return ContentService
       .createTextOutput(JSON.stringify({ success: false, error: err.message }))
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
+// ── Health check ──────────────────────────────────────────────
 function doGet() {
-  return ContentService.createTextOutput('Nail Muse Booking API is live ✅');
+  return ContentService
+    .createTextOutput('Nail Muse Booking API is live ✅')
+    .setMimeType(ContentService.MimeType.TEXT);
 }
 
-// ── Save row to Google Sheet ──────────────────────────────
+// ── Save booking row to Google Sheet ─────────────────────────
 function saveToSheet(data) {
-  const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
-  let   sheet = ss.getSheetByName('Bookings');
+  var ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
+  var sheet = ss.getSheetByName('Bookings');
 
-  // Auto-create sheet with headers if it doesn't exist
   if (!sheet) {
     sheet = ss.insertSheet('Bookings');
-    const headers = [
-      'Booking Ref', 'Date Received', 'Name', 'Phone', 'Email',
-      'Service', 'Appt Date', 'Time Slot', 'Special Requests',
-      'Referral Source', 'Status'
+    var headers = [
+      'Booking Ref', 'Received (IST)', 'Name', 'Phone', 'Email',
+      'Service', 'Appt Date', 'Time Slot',
+      'Special Requests', 'Referral Source', 'Status'
     ];
     sheet.appendRow(headers);
-    const headerRange = sheet.getRange(1, 1, 1, headers.length);
-    headerRange.setFontWeight('bold')
-               .setBackground('#C2185B')
-               .setFontColor('#FFFFFF');
+    sheet.getRange(1, 1, 1, headers.length)
+         .setFontWeight('bold')
+         .setBackground('#C2185B')
+         .setFontColor('#FFFFFF');
     sheet.setFrozenRows(1);
+    // Pre-format phone column as plain text so +91 doesn't trigger formula error
+    sheet.getRange('D:D').setNumberFormat('@STRING@');
   }
 
-  sheet.appendRow([
-    data.bookingRef,
+  var row = [
+    data.bookingRef || 'NM-UNKNOWN',
     new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-    data.name,
-    '+91 ' + data.phone,
-    data.email,
-    data.service,
-    data.date,
-    data.time,
-    data.requests  || '—',
-    data.referral  || '—',
+    data.name        || '',
+    data.phone       || '',   // stored as plain number, formatted below
+    data.email       || '',
+    data.service     || '',
+    data.date        || '',
+    data.time        || '',
+    data.requests    || '—',
+    data.referral    || '—',
     'Pending Confirmation'
-  ]);
+  ];
+  sheet.appendRow(row);
+
+  // Force phone column (col 4) to display as plain text with +91 prefix
+  var lastRow = sheet.getLastRow();
+  var phoneCell = sheet.getRange(lastRow, 4);
+  phoneCell.setNumberFormat('@STRING@');
+  phoneCell.setValue('+91 ' + (data.phone || ''));
 }
 
-// ── Confirmation email to client ──────────────────────────
-function sendConfirmationToClient(data) {
-  const subject = `✨ Booking Received — ${data.bookingRef} | Nail Muse`;
+// ── Send confirmation email to customer ──────────────────────
+function emailClient(data) {
+  if (!data.email) return;
 
-  const body = `
-Hi ${data.name}! 💅
-
-Your booking request has been received at Nail Muse.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Booking Reference : ${data.bookingRef}
-  Service           : ${data.service}
-  Date              : ${data.date}
-  Time              : ${data.time}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-We will confirm your appointment via WhatsApp (+91 88793 36671)
-within 2 hours during business hours (Mon–Sat, 10am–7pm).
-
-Special Requests noted: ${data.requests || 'None'}
-
-📍 Nail Muse Studio, Mumbai, Maharashtra
-🌐 nailmuse.in | 📸 @nailmuse.in
-
-Cancellation Policy: Please cancel at least 24 hours in advance.
-
-Can't wait to create something beautiful for you! ✨
-
-With love,
-Team Nail Muse
-  `.trim();
+  var subject = '✨ Booking Received — ' + data.bookingRef + ' | Nail Muse';
+  var body =
+    'Hi ' + data.name + '! 💅\n\n' +
+    'Your booking request has been received at Nail Muse.\n\n' +
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' +
+    '  Booking Ref : ' + data.bookingRef + '\n' +
+    '  Service     : ' + data.service + '\n' +
+    '  Date        : ' + data.date + '\n' +
+    '  Time        : ' + data.time + '\n' +
+    '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+    'We will confirm via WhatsApp (+91 88793 36671) within 2 hours\n' +
+    'during business hours (Mon–Sat, 10am–7pm).\n\n' +
+    (data.requests ? 'Special Requests: ' + data.requests + '\n\n' : '') +
+    '📍 Nail Muse Studio, Mumbai, Maharashtra\n' +
+    '🌐 nailmuse.in  |  📸 @nailmuse.in\n\n' +
+    'Cancellation Policy: Please cancel at least 24 hours in advance.\n\n' +
+    'Can\'t wait to create something beautiful for you! ✨\n\n' +
+    'With love,\nTeam Nail Muse';
 
   GmailApp.sendEmail(data.email, subject, body, {
     name: 'Nail Muse Studio',
@@ -105,26 +112,42 @@ Team Nail Muse
   });
 }
 
-// ── Notify salon owner by email ───────────────────────────
-function notifyOwner(data) {
-  const subject = `🔔 New Booking ${data.bookingRef} — ${data.name} | ${data.service}`;
-
-  const body = `
-New booking received on nailmuse.in!
-
-Booking Ref  : ${data.bookingRef}
-Name         : ${data.name}
-Phone        : +91 ${data.phone}
-Email        : ${data.email}
-Service      : ${data.service}
-Appt Date    : ${data.date}
-Time Slot    : ${data.time}
-Requests     : ${data.requests || 'None'}
-Referral     : ${data.referral  || 'Not specified'}
-Received at  : ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST
-
-Reply on WhatsApp: https://wa.me/91${data.phone}
-  `.trim();
+// ── Alert email to salon owner ────────────────────────────────
+function emailOwner(data) {
+  var subject = '🔔 New Booking ' + data.bookingRef + ' — ' + data.name + ' | ' + data.service;
+  var body =
+    'New booking received on nailmuse.in!\n\n' +
+    'Booking Ref : ' + data.bookingRef + '\n' +
+    'Name        : ' + data.name + '\n' +
+    'Phone       : +91 ' + data.phone + '\n' +
+    'Email       : ' + data.email + '\n' +
+    'Service     : ' + data.service + '\n' +
+    'Date        : ' + data.date + '\n' +
+    'Time        : ' + data.time + '\n' +
+    'Requests    : ' + (data.requests || 'None') + '\n' +
+    'Referral    : ' + (data.referral  || 'Not specified') + '\n' +
+    'Received    : ' + new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) + ' IST\n\n' +
+    '👉 Reply on WhatsApp: https://wa.me/91' + data.phone;
 
   GmailApp.sendEmail(OWNER_EMAIL, subject, body);
+}
+
+// ── Manual test: run this from Apps Script editor to verify ──
+// Select testBooking → click Run → check Sheet + inbox
+function testBooking() {
+  var fake = {
+    bookingRef : 'NM-TEST-001',
+    name       : 'Test Client',
+    phone      : '9999999999',
+    email      : OWNER_EMAIL,
+    service    : 'Gel Manicure — ₹899',
+    date       : '2026-06-10',
+    time       : '11:00 AM',
+    requests   : 'Test booking — please ignore',
+    referral   : 'Test'
+  };
+  saveToSheet(fake);
+  emailClient(fake);
+  emailOwner(fake);
+  Logger.log('Test booking sent! Check sheet and inbox.');
 }
