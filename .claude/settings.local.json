@@ -13,7 +13,9 @@
       "Bash(gh repo *)",
       "Bash(gh run *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(curl -s http://localhost:3456/index.html)",
+      "Bash(curl -s http://localhost:3456/)"
     ]
   }
 }

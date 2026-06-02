@@ -379,6 +379,197 @@ if (fadeEls.length) {
   });
 })();
 
+// ── Our Work — Home Gallery ────────────────────
+(function () {
+  const grid     = document.getElementById('og-grid');
+  if (!grid) return;
+
+  const tabs     = document.querySelectorAll('.og-tab');
+  const loadBtn  = document.getElementById('og-load-more');
+  const lb       = document.getElementById('og-lightbox');
+  const lbImg    = document.getElementById('og-lb-img');
+  const lbTitle  = document.getElementById('og-lb-title');
+  const lbDesc   = document.getElementById('og-lb-desc');
+  const lbTag    = document.getElementById('og-lb-tag');
+  const lbCur    = document.getElementById('og-lb-cur');
+  const lbTot    = document.getElementById('og-lb-tot');
+  const lbClose  = document.getElementById('og-lb-close');
+  const lbPrev   = document.getElementById('og-lb-prev');
+  const lbNext   = document.getElementById('og-lb-next');
+
+  let currentFilter  = 'all';
+  let currentLbIndex = 0;
+  let visibleItems   = [];   // items currently visible after filter
+
+  // ── Helpers ──────────────────────────────────
+  function allItems() {
+    return [...grid.querySelectorAll('.og-item')];
+  }
+
+  function getVisible() {
+    // items matching current filter (including load-more revealed ones)
+    return allItems().filter(el => {
+      const cat   = el.dataset.category;
+      const match = currentFilter === 'all' || cat === currentFilter;
+      const shown = !el.classList.contains('og-hidden') ||
+                     el.classList.contains('og-revealed');
+      return match && shown;
+    });
+  }
+
+  // ── Filter ────────────────────────────────────
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      if (tab.dataset.filter === currentFilter) return;
+
+      // Update active tab
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentFilter = tab.dataset.filter;
+
+      const items = allItems();
+
+      // Phase 1: fade all visible items out
+      items.forEach(el => {
+        const shown = !el.classList.contains('og-hidden') ||
+                       el.classList.contains('og-revealed');
+        if (shown) {
+          el.classList.remove('og-in');
+          el.classList.add('og-out');
+        }
+      });
+
+      setTimeout(() => {
+        items.forEach(el => {
+          el.classList.remove('og-out', 'og-in');
+          const cat   = el.dataset.category;
+          const match = currentFilter === 'all' || cat === currentFilter;
+          const isExtra = el.classList.contains('og-hidden') &&
+                          !el.classList.contains('og-revealed');
+
+          if (match && !isExtra) {
+            el.style.display = '';
+            el.classList.add('og-in');
+          } else {
+            el.style.display = 'none';
+          }
+        });
+
+        // Check if load more needed for this filter
+        const hiddenMatchCount = items.filter(el => {
+          const cat   = el.dataset.category;
+          const match = currentFilter === 'all' || cat === currentFilter;
+          return match && el.classList.contains('og-hidden') &&
+                 !el.classList.contains('og-revealed');
+        }).length;
+
+        if (loadBtn) {
+          loadBtn.classList.toggle('og-done', hiddenMatchCount === 0);
+        }
+
+        visibleItems = getVisible();
+      }, 250);
+    });
+  });
+
+  // ── Load More ─────────────────────────────────
+  if (loadBtn) {
+    loadBtn.addEventListener('click', () => {
+      const hidden = allItems().filter(el =>
+        el.classList.contains('og-hidden') && !el.classList.contains('og-revealed')
+      );
+      hidden.forEach((el, i) => {
+        setTimeout(() => {
+          el.classList.add('og-revealed');
+          // Re-apply display based on current filter
+          const cat   = el.dataset.category;
+          const match = currentFilter === 'all' || cat === currentFilter;
+          el.style.display = match ? '' : 'none';
+        }, i * 80);
+      });
+      loadBtn.classList.add('og-done');
+      visibleItems = getVisible();
+    });
+  }
+
+  // ── Lightbox ──────────────────────────────────
+  function openLightbox(index) {
+    visibleItems = getVisible();
+    currentLbIndex = Math.max(0, Math.min(index, visibleItems.length - 1));
+    renderLightbox();
+    lb.classList.add('og-lb-open');
+    document.body.style.overflow = 'hidden';
+    lb.focus();
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('og-lb-open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; }, 300);
+  }
+
+  function renderLightbox() {
+    const el    = visibleItems[currentLbIndex];
+    if (!el) return;
+    const img   = el.querySelector('img');
+    const cap   = el.dataset.caption    || '';
+    const desc  = el.dataset.description || '';
+    const cat   = el.dataset.category   || '';
+    const catLabel = el.querySelector('.og-cat-tag')?.textContent || cat;
+
+    lbImg.classList.add('og-lb-loading');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbImg.onload = () => lbImg.classList.remove('og-lb-loading');
+
+    lbTitle.textContent = cap;
+    lbDesc.textContent  = desc;
+    lbTag.textContent   = catLabel;
+    lbCur.textContent   = currentLbIndex + 1;
+    lbTot.textContent   = visibleItems.length;
+  }
+
+  function prevItem() {
+    currentLbIndex = (currentLbIndex - 1 + visibleItems.length) % visibleItems.length;
+    renderLightbox();
+  }
+
+  function nextItem() {
+    currentLbIndex = (currentLbIndex + 1) % visibleItems.length;
+    renderLightbox();
+  }
+
+  // Open on item click
+  allItems().forEach((el, i) => {
+    el.addEventListener('click', () => {
+      visibleItems = getVisible();
+      const visIdx = visibleItems.indexOf(el);
+      openLightbox(visIdx >= 0 ? visIdx : 0);
+    });
+  });
+
+  // Controls
+  if (lbClose) lbClose.addEventListener('click', closeLightbox);
+  if (lbPrev)  lbPrev.addEventListener('click', prevItem);
+  if (lbNext)  lbNext.addEventListener('click', nextItem);
+
+  // Click outside image closes
+  lb.addEventListener('click', e => {
+    if (e.target === lb) closeLightbox();
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('og-lb-open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')   prevItem();
+    if (e.key === 'ArrowRight')  nextItem();
+  });
+
+  // Init visible list
+  visibleItems = getVisible();
+})();
+
 // ── Counter Animation ──────────────────────────
 (function() {
   const counters = document.querySelectorAll('[data-count]');
