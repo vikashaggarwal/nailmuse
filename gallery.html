@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Nail Muse</title>
+  <meta name="description" content="Browse Nail Muse's gallery of nail art, extensions, bridal nails, and seasonal designs. Mumbai's best nail studio." />
+  <link rel="icon" type="image/png" href="assets/logo/logo.png" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+<div id="announcement-bar">
+  ✨ Bridal bookings open for 2025 — Limited slots
+  <a href="booking.html" style="color:#fff;text-decoration:underline;margin-left:.5rem">Book Now</a>
+  <button class="ann-close">×</button>
+</div>
+
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo/logo.png" alt="Nail Muse" onerror="this.style.display='none'">
+        <div class="nav-logo-text">Nail <span>Muse</span></div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li>
+        <li><a href="gallery.html">Gallery</a></li><li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a href="booking.html" class="btn btn-primary nav-cta btn-sm">Book Now</a>
+      <button class="hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-nav">
+    <a href="index.html">Home</a><a href="services.html">Services</a><a href="gallery.html">Gallery</a>
+    <a href="about.html">About</a><a href="contact.html">Contact</a>
+    <a href="booking.html" class="btn btn-primary" style="margin-top:.5rem">Book Appointment</a>
+  </nav>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><span>Gallery</span></div>
+    <h1>Our <em style="color:var(--rose)">Gallery</em></h1>
+    <div class="gold-divider"></div>
+    <p>Every nail tells a story. Browse our portfolio and find your inspiration.</p>
+  </div>
+</header>
+
+<main>
+<section class="section">
+  <div class="container">
+
+    <!-- Filter Bar -->
+    <div class="filter-bar fade-up" role="group" aria-label="Filter gallery">
+      <button class="tab-btn active" data-filter="all">All Work</button>
+      <button class="tab-btn" data-filter="nail-art">Nail Art</button>
+      <button class="tab-btn" data-filter="extensions">Extensions</button>
+      <button class="tab-btn" data-filter="bridal">Bridal</button>
+      <button class="tab-btn" data-filter="seasonal">Seasonal</button>
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="masonry-grid fade-up" id="gallery-grid">
+
+      <!-- Nail Art -->
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Floral nail art design" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="extensions">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Gel extensions" loading="lazy">
+        <div class="masonry-overlay"><span>Extensions</span></div>
+      </div>
+      <div class="masonry-item" data-category="bridal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Bridal nail design" loading="lazy">
+        <div class="masonry-overlay"><span>Bridal</span></div>
+      </div>
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Abstract nail art" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="seasonal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Diwali festive nails" loading="lazy">
+        <div class="masonry-overlay"><span>Seasonal</span></div>
+      </div>
+      <div class="masonry-item" data-category="extensions">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Acrylic extensions" loading="lazy">
+        <div class="masonry-overlay"><span>Extensions</span></div>
+      </div>
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Chrome ombre nails" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="bridal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Mehendi nail art" loading="lazy">
+        <div class="masonry-overlay"><span>Bridal</span></div>
+      </div>
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="3D floral nails" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="seasonal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Christmas nail design" loading="lazy">
+        <div class="masonry-overlay"><span>Seasonal</span></div>
+      </div>
+      <div class="masonry-item" data-category="extensions">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Long gel extensions" loading="lazy">
+        <div class="masonry-overlay"><span>Extensions</span></div>
+      </div>
+      <div class="masonry-item" data-category="bridal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Bridal French tips" loading="lazy">
+        <div class="masonry-overlay"><span>Bridal</span></div>
+      </div>
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Geometric nail art" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="seasonal">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Summer nail art" loading="lazy">
+        <div class="masonry-overlay"><span>Seasonal</span></div>
+      </div>
+      <div class="masonry-item" data-category="nail-art">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Marble nail design" loading="lazy">
+        <div class="masonry-overlay"><span>Nail Art</span></div>
+      </div>
+      <div class="masonry-item" data-category="extensions">
+        <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=500&q=80" alt="Pink ombre extensions" loading="lazy">
+        <div class="masonry-overlay"><span>Extensions</span></div>
+      </div>
+
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <button id="lb-close" class="lightbox-close" aria-label="Close lightbox">×</button>
+      <button id="lb-prev" class="lb-nav lb-prev" aria-label="Previous image">‹</button>
+      <img id="lb-img" class="lightbox-img" src="" alt="Gallery image" />
+      <button id="lb-next" class="lb-nav lb-next" aria-label="Next image">›</button>
+      <div id="lb-caption" class="lightbox-caption"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="fade-up text-center" style="margin-top:3rem;padding:2.5rem;background:linear-gradient(135deg,rgba(242,184,198,.15),rgba(201,168,76,.08));border-radius:var(--radius-lg);border:1px solid rgba(201,168,76,.2)">
+      <span class="section-label">✦ Love What You See?</span>
+      <h3 style="margin-bottom:.75rem">Book Your Nail Transformation</h3>
+      <p style="margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto">Share a photo from our gallery when booking and we'll recreate it perfectly for you.</p>
+      <a href="booking.html" class="btn btn-primary">✨ Book Appointment</a>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo-text">Nail <span>Muse</span></div>
+        <div class="footer-tagline-text">"Where Every Nail Tells a Story"</div>
+        <p>Mumbai's premier nail studio.</p>
+        <div class="social-links">
+          <a href="https://instagram.com/nailmuse.in" class="social-link" target="_blank">📸</a>
+          <a href="https://wa.me/918879336671" class="social-link" target="_blank">💬</a>
+        </div>
+      </div>
+      <div class="footer-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-col"><h5>Services</h5><ul><li><a href="services.html">Manicure</a></li><li><a href="services.html">Nail Art</a></li><li><a href="services.html">Extensions</a></li><li><a href="services.html">Bridal</a></li></ul></div>
+      <div class="footer-col"><h5>Book</h5><ul><li><a href="booking.html">Book Appointment</a></li><li><a href="contact.html">Find Us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Nail Muse. All rights reserved.</p>
+      <p><a href="https://nailmuse.in">nailmuse.in</a></p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/918879336671" class="whatsapp-float" aria-label="WhatsApp" target="_blank" rel="noopener">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<button class="scroll-top" aria-label="Scroll to top">↑</button>
+<div class="mobile-book-bar"><a href="booking.html" class="btn btn-primary">✨ Book Appointment</a></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

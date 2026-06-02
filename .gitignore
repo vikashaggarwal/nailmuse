@@ -1,0 +1,26 @@
+# Build output
+_site/
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Env / secrets
+.env
+.env.local
+*.secret
+
+# Logs
+*.log

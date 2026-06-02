@@ -1,0 +1,160 @@
+name: Deploy Nail Muse to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ── Lint & Validate ──────────────────────────
+  validate:
+    name: Validate HTML & Assets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check required files exist
+        run: |
+          echo "Checking required files..."
+          for file in index.html services.html gallery.html about.html booking.html contact.html assets/css/style.css assets/js/main.js; do
+            if [ -f "$file" ]; then
+              echo "✅ $file"
+            else
+              echo "❌ MISSING: $file"
+              exit 1
+            fi
+          done
+          echo "All required files present."
+
+      - name: Validate HTML with W3C validator (via curl)
+        run: |
+          echo "Skipping remote W3C validation in CI — use htmlhint instead."
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Lint HTML files
+        run: |
+          htmlhint index.html services.html gallery.html about.html booking.html contact.html \
+            --config '{"tagname-lowercase":true,"attr-lowercase":true,"attr-value-double-quotes":true,"doctype-first":true,"tag-pair":true,"spec-char-escape":true,"img-alt-require":true}' \
+          || echo "HTMLHint warnings above (non-blocking)"
+
+      - name: Check CSS file size
+        run: |
+          SIZE=$(wc -c < assets/css/style.css)
+          echo "CSS size: ${SIZE} bytes"
+          if [ "$SIZE" -gt 200000 ]; then
+            echo "Warning: CSS file is large (>200KB). Consider minifying."
+          fi
+
+  # ── Build (minify for production) ────────────
+  build:
+    name: Build & Minify
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install minification tools
+        run: |
+          npm install -g clean-css-cli uglify-js html-minifier-terser
+
+      - name: Minify CSS
+        run: |
+          mkdir -p _site/assets/css
+          cleancss -o _site/assets/css/style.css assets/css/style.css
+          ORIG=$(wc -c < assets/css/style.css)
+          MIN=$(wc -c < _site/assets/css/style.css)
+          echo "CSS: ${ORIG}B → ${MIN}B ($(( (ORIG-MIN)*100/ORIG ))% reduction)"
+
+      - name: Minify JS
+        run: |
+          mkdir -p _site/assets/js
+          uglifyjs assets/js/main.js -o _site/assets/js/main.js --compress --mangle
+          ORIG=$(wc -c < assets/js/main.js)
+          MIN=$(wc -c < _site/assets/js/main.js)
+          echo "JS: ${ORIG}B → ${MIN}B ($(( (ORIG-MIN)*100/ORIG ))% reduction)"
+
+      - name: Minify HTML pages
+        run: |
+          for file in index.html services.html gallery.html about.html booking.html contact.html; do
+            html-minifier-terser \
+              --collapse-whitespace \
+              --remove-comments \
+              --remove-optional-tags \
+              --remove-redundant-attributes \
+              --remove-script-type-attributes \
+              --use-short-doctype \
+              --minify-css true \
+              --minify-js true \
+              -o "_site/$file" "$file"
+            echo "Minified: $file"
+          done
+
+      - name: Copy static assets
+        run: |
+          cp -r assets/logo  _site/assets/logo  2>/dev/null || mkdir -p _site/assets/logo
+          cp -r assets/images _site/assets/images 2>/dev/null || mkdir -p _site/assets/images
+          [ -f robots.txt ]   && cp robots.txt   _site/
+          [ -f sitemap.xml ]  && cp sitemap.xml  _site/
+          [ -f 404.html ]     && cp 404.html     _site/
+          [ -f CNAME ]        && cp CNAME        _site/
+          echo "Assets copied."
+
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  # ── Deploy to GitHub Pages ────────────────────
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # ── Post-deploy smoke test ────────────────────
+  smoke-test:
+    name: Smoke Test
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    steps:
+      - name: Wait for deployment to propagate
+        run: sleep 15
+
+      - name: Check homepage responds
+        run: |
+          URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
+          echo "Homepage status: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "Warning: Homepage returned $STATUS (may still be propagating)"
+          else
+            echo "✅ Homepage is live at $URL"
+          fi

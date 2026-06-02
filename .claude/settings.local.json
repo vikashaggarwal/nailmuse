@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3456/)",
+      "Bash(find ~/Desktop ~/Downloads -maxdepth 2 -iname \"*nail*logo*\" -o -iname \"*nailmuse*logo*\" -o -iname \"*logo*nail*\" 2>/dev/null | head -10)",
+      "Bash(find ~/Desktop ~/Downloads -maxdepth 3 \\\\\\( -name \"*.png\" -o -name \"*.jpg\" -o -name \"*.jpeg\" -o -name \"*.svg\" -o -name \"*.pdf\" \\\\\\) 2>/dev/null | grep -iv \"screenshot\\\\|screen shot\" | head -20)",
+      "Bash(cp \"/Users/vikashaggarwal/Downloads/WhatsApp Image 2026-05-30 at 00.43.47.jpeg\" /Users/vikashaggarwal/Desktop/nailmuse/assets/logo/logo.png && echo \"Copied\" && ls -lh /Users/vikashaggarwal/Desktop/nailmuse/assets/logo/)",
+      "Bash(git config *)",
+      "Bash(gh auth *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}
