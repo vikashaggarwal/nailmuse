@@ -29,7 +29,8 @@
       "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__media_upload",
       "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__media_confirm",
       "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__generate_image",
-      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__show_plans_and_credits"
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__show_plans_and_credits",
+      "Bash(xargs sed -i '' -e 's/born in 2022/founded in 2016/g' -e 's/Nail Muse was born in 2022/Nail Muse was founded in 2016/g' -e 's/3+ years/9+ years/g' -e 's/3+ Years/9+ Years/g' -e 's/\"3+ years/\"9+ years/g' -e 's/3 years of experience/9+ years of experience/g')"
     ]
   }
 }
