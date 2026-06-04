@@ -24,7 +24,12 @@
       "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:500]\\)\")",
       "Bash(sed -i '' 's|📍 Nail Muse Studio, Mumbai, Maharashtra|📍 Shop No 5, Bhoomi Classic, New Link Rd, Malad West, Mumbai 400064|g' /Users/vikashaggarwal/Desktop/nailmuse/google-apps-script.js)",
       "Bash(sed -i '' 's|Mon–Sat, 10am–7pm|Mon–Sun, 11am–9:30pm|g' /Users/vikashaggarwal/Desktop/nailmuse/google-apps-script.js)",
-      "Bash(xargs sed -i '' -e 's|https://instagram.com/nailmuse.in|https://instagram.com/nailmuse2016|g' -e 's|https://www.instagram.com/nailmuse.in|https://www.instagram.com/nailmuse2016|g' -e 's|@nailmuse\\\\.in|@nailmuse2016|g' -e 's|📸 @nailmuse2016|📸 @nailmuse2016|g')"
+      "Bash(xargs sed -i '' -e 's|https://instagram.com/nailmuse.in|https://instagram.com/nailmuse2016|g' -e 's|https://www.instagram.com/nailmuse.in|https://www.instagram.com/nailmuse2016|g' -e 's|@nailmuse\\\\.in|@nailmuse2016|g' -e 's|📸 @nailmuse2016|📸 @nailmuse2016|g')",
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__models_explore",
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__media_upload",
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__media_confirm",
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__generate_image",
+      "mcp__d0a99693-ee03-4e0f-9f97-f378080f92f7__show_plans_and_credits"
     ]
   }
 }
