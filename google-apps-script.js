@@ -98,9 +98,9 @@ function emailClient(data) {
     '  Time        : ' + data.time + '\n' +
     '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
     'We will confirm via WhatsApp (+91 88793 36671) within 2 hours\n' +
-    'during business hours (Mon–Sat, 10am–7pm).\n\n' +
+    'during business hours (Mon–Sun, 11am–9:30pm).\n\n' +
     (data.requests ? 'Special Requests: ' + data.requests + '\n\n' : '') +
-    '📍 Nail Muse Studio, Mumbai, Maharashtra\n' +
+    '📍 Shop No 5, Bhoomi Classic, New Link Rd, Malad West, Mumbai 400064\n' +
     '🌐 nailmuse.in  |  📸 @nailmuse.in\n\n' +
     'Cancellation Policy: Please cancel at least 24 hours in advance.\n\n' +
     'Can\'t wait to create something beautiful for you! ✨\n\n' +

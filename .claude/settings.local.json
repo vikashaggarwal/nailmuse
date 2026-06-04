@@ -21,7 +21,9 @@
       "Bash(curl -s -L -X POST https://script.google.com/macros/s/AKfycbyJQk5LglEb1eHJ9oa9U1X_Z-9KzoIvadK-u0HHTIkMQmSv52PifmN30AvmyySL3OE/exec -H 'Content-Type: application/json' -d '{\"bookingRef\":\"NM-TEST-003\",\"name\":\"Test Client\",\"phone\":\"9999999999\",\"email\":\"nailmuse2016@gmail.com\",\"service\":\"Gel Manicure — ₹899\",\"date\":\"2026-06-10\",\"time\":\"11:00 AM\",\"requests\":\"Live API test\",\"referral\":\"Test\",\"timestamp\":\"2026-06-02T00:00:00Z\"}')",
       "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:300] if len\\(d\\)>300 else d\\)\")",
       "Bash(curl -s -L https://script.google.com/macros/s/AKfycbyJQk5LglEb1eHJ9oa9U1X_Z-9KzoIvadK-u0HHTIkMQmSv52PifmN30AvmyySL3OE/exec)",
-      "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:500]\\)\")"
+      "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:500]\\)\")",
+      "Bash(sed -i '' 's|📍 Nail Muse Studio, Mumbai, Maharashtra|📍 Shop No 5, Bhoomi Classic, New Link Rd, Malad West, Mumbai 400064|g' /Users/vikashaggarwal/Desktop/nailmuse/google-apps-script.js)",
+      "Bash(sed -i '' 's|Mon–Sat, 10am–7pm|Mon–Sun, 11am–9:30pm|g' /Users/vikashaggarwal/Desktop/nailmuse/google-apps-script.js)"
     ]
   }
 }
