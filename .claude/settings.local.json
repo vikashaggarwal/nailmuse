@@ -16,7 +16,12 @@
       "Bash(git push *)",
       "Bash(curl -s http://localhost:3456/index.html)",
       "Bash(curl -s http://localhost:3456/)",
-      "Bash(sort -k6,7)"
+      "Bash(sort -k6,7)",
+      "Bash(curl -s -L -X POST https://script.google.com/macros/s/AKfycbx8c514qTYcsGTuVuKLyrDLi695WDMABZhbELlHzGFhk9K4NZAmS_4QRhXQSTOFtzh5/exec -H 'Content-Type: application/json' -d '{\"bookingRef\":\"NM-TEST-001\",\"name\":\"Test User\",\"phone\":\"9999999999\",\"email\":\"test@test.com\",\"service\":\"Test Service\",\"date\":\"2026-06-10\",\"time\":\"11:00 AM\",\"requests\":\"Test booking\",\"referral\":\"Test\",\"timestamp\":\"2026-06-02T00:00:00Z\"}')",
+      "Bash(curl -s -L -X POST https://script.google.com/macros/s/AKfycbyJQk5LglEb1eHJ9oa9U1X_Z-9KzoIvadK-u0HHTIkMQmSv52PifmN30AvmyySL3OE/exec -H 'Content-Type: application/json' -d '{\"bookingRef\":\"NM-TEST-003\",\"name\":\"Test Client\",\"phone\":\"9999999999\",\"email\":\"nailmuse2016@gmail.com\",\"service\":\"Gel Manicure — ₹899\",\"date\":\"2026-06-10\",\"time\":\"11:00 AM\",\"requests\":\"Live API test\",\"referral\":\"Test\",\"timestamp\":\"2026-06-02T00:00:00Z\"}')",
+      "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:300] if len\\(d\\)>300 else d\\)\")",
+      "Bash(curl -s -L https://script.google.com/macros/s/AKfycbyJQk5LglEb1eHJ9oa9U1X_Z-9KzoIvadK-u0HHTIkMQmSv52PifmN30AvmyySL3OE/exec)",
+      "Bash(python3 -c \"import sys; d=sys.stdin.read\\(\\); print\\(d[:500]\\)\")"
     ]
   }
 }

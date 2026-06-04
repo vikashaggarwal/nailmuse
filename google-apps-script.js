@@ -61,11 +61,12 @@ function saveToSheet(data) {
     sheet.getRange('D:D').setNumberFormat('@STRING@');
   }
 
-  var row = [
+  // Append row WITHOUT phone first (avoids formula parse error on +91)
+  sheet.appendRow([
     data.bookingRef || 'NM-UNKNOWN',
     new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
     data.name        || '',
-    data.phone       || '',   // stored as plain number, formatted below
+    '',               // phone placeholder — set below after formatting
     data.email       || '',
     data.service     || '',
     data.date        || '',
@@ -73,11 +74,10 @@ function saveToSheet(data) {
     data.requests    || '—',
     data.referral    || '—',
     'Pending Confirmation'
-  ];
-  sheet.appendRow(row);
+  ]);
 
-  // Force phone column (col 4) to display as plain text with +91 prefix
-  var lastRow = sheet.getLastRow();
+  // Set phone AFTER formatting cell as plain text — prevents formula error
+  var lastRow  = sheet.getLastRow();
   var phoneCell = sheet.getRange(lastRow, 4);
   phoneCell.setNumberFormat('@STRING@');
   phoneCell.setValue('+91 ' + (data.phone || ''));
