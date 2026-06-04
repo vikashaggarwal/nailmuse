@@ -101,7 +101,7 @@ function emailClient(data) {
     'during business hours (Mon–Sun, 11am–9:30pm).\n\n' +
     (data.requests ? 'Special Requests: ' + data.requests + '\n\n' : '') +
     '📍 Shop No 5, Bhoomi Classic, New Link Rd, Malad West, Mumbai 400064\n' +
-    '🌐 nailmuse.in  |  📸 @nailmuse.in\n\n' +
+    '🌐 nailmuse.in  |  📸 @nailmuse2016\n\n' +
     'Cancellation Policy: Please cancel at least 24 hours in advance.\n\n' +
     'Can\'t wait to create something beautiful for you! ✨\n\n' +
     'With love,\nTeam Nail Muse';
