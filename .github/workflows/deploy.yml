@@ -118,6 +118,7 @@ jobs:
           [ -f sitemap.xml ]  && cp sitemap.xml     _site/
           [ -f 404.html ]     && cp 404.html        _site/
           [ -f CNAME ]        && cp CNAME           _site/
+          for f in google*.html; do [ -f "$f" ] && cp "$f" _site/; done
           echo "Assets copied."
           echo "Gallery images: $(ls _site/images/gallery/ 2>/dev/null | wc -l) files"
 
